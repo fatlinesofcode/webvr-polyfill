@@ -102,10 +102,11 @@ effect.setSize(window.innerWidth, window.innerHeight);
 
 //var addEffect = function() {
     var composer = new THREE.EffectComposer(renderer);
+    composer.setSize(window.innerWidth, window.innerHeight);
     var pass1 = new THREE.RenderPass(scene, camera);
 
     hBlurPass = new THREE.ShaderPass(THREE.HorizontalBlurShader);
-    hBlurPass.uniforms.h.value = 5 / 512; // "1 / width"
+    hBlurPass.uniforms.h.value = 2 / 512; // "1 / width"
 
 
     composer.addPass(pass1);
@@ -174,12 +175,13 @@ renderer.render = function (scene, camera) {
     }
 };
 
+
 function animate(timestamp) {
   var delta = Math.min(timestamp - lastRender, 500);
   lastRender = timestamp;
 
   // Apply rotation to cube mesh
-  cube.rotation.y += delta * 0.0006;
+//  cube.rotation.y += delta * 0.0006;
 
   // Update VR headset position and apply to camera.
   controls.update();
@@ -204,7 +206,22 @@ function animate(timestamp) {
 function onResize() {
   console.log('Resizing to %s x %s.', window.innerWidth, window.innerHeight);
   effect.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
+//  camera.aspect=1;
+//  camera.aspect=1281/1442;
+//  camera.aspect=667/750;
+  camera.aspect=(1334 / 750) / 2;
+  camera.fov = 80;
+//  camera.fov = 33.46832988041064 + 33.46832988041064;
+//  camera.near = 0.1;
+//  camera.far = 20000;
+//    console.log("225","onResize","onResize", camera.aspect);
+//    camera.aspect=667/750;
+  console.log("225","onResize","onResize", camera.aspect,  (1334 / 750) / 2);
+
+  // 1281 1442 nexus 6
+  // 667 750 iphone 6
   camera.updateProjectionMatrix();
 }
 
